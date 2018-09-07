@@ -85,7 +85,7 @@ int i2c_nack_received(void)
 	return nack_flag;
 }
 //	*********************************************************************** //
-// 4) void i2c_write(uint8_t slave_addr, uint8_t *data, int count, int stop)
+// 4) void i2c_write(uint8_t slave_addr, uint8_t *data, int count, int stop):
 //
 //		-> uint8_t slave_addr: dirección del dispositivo esclavo
 //		-> uint8_t *data: puntero apuntando a la dirección de memoria del dato.
