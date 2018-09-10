@@ -114,7 +114,7 @@ int main()
 	    }
 		/* espera ~0.125 s */
 		start = ticks;
-		while ((ticks - start) < 12*0.125) //12*5 for 5s
+		while ((ticks - start) < 12*0.125) // 1/0.125 = 8KHz
 			;
 	}
 
