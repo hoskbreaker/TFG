@@ -15,11 +15,8 @@
 #include "PCD8544.h"
 #include "adc.h"
 
-//rutinas de interrupción TIMER//
-void timer_interrupt(void) __attribute__((interrupt(TIMER0_A0_VECTOR)));
-
 //variables locales
-static volatile uint32_t ticks;
+uint8_t flag = 0;
 static volatile int posicion;
 static volatile char barra;
 //-----SUBPROGRAMAS MAIN-------//
@@ -51,7 +48,7 @@ int normalizar(uint8_t x)
 //	*********************************************************************** //
 int main()
 {
-	uint32_t start;
+	//uint32_t start;
 	int eje_x, eje_y, eje_z;
 
 	/* desactiva watchdog */
@@ -70,8 +67,8 @@ int main()
 	TA0CTL = TASSEL_2 | TACLR;
 	/* divide el valor del reloj por 8: 125 kHz */
 	TA0CTL |= ID_3;
-	/* establece el valor de comparacion en 12.5 Hz frecuencia de ticks */
-	TA0CCR0 = 10000;
+	/* establece el valor de comparacion en 2 Hz frecuencia de ticks */
+	TA0CCR0 = 62500;
 	/* activa el interruptor de comparacion */
 	TA0CCTL0 = CCIE;
 	/* inicia el timer (up mode) */
@@ -96,26 +93,26 @@ int main()
 	
 	for(;;) {
 
-	    eje_x=normalizar(MMA8451GetXAxis());	//valor eje x normalizado
-	    eje_y=normalizar(MMA8451GetYAxis());	//valor eje y normalizado
-	    eje_z=normalizar(MMA8451GetZAxis());	//valor eje z normalizado
+	    __low_power_mode_0();
+	    if(flag){
+	        flag = 0;
+	        eje_x=normalizar(MMA8451GetXAxis());	//valor eje x normalizado
+            eje_y=normalizar(MMA8451GetYAxis());	//valor eje y normalizado
+            eje_z=normalizar(MMA8451GetZAxis());	//valor eje z normalizado
 
-		//si el acelerómetro detecta un paso
-        if(paso(eje_z)){
-			//si el paso incluye cambio de dirección
-            mover(direccion(eje_y));
-        }
-		//si el usuario quiere mirar la pantalla
-        if(visible(eje_x)){
-			//detectar si la luz ambiente da visibilidad
-            ADCluxLevel(1);
-			//refresca la pantalla con el movimiento actualizado
-            dibujar();
+            //si el acelerómetro detecta un paso
+            if(paso(eje_z)){
+                //si el paso incluye cambio de dirección
+                mover(direccion(eje_y));
+            }
+            //si el usuario quiere mirar la pantalla
+            if(visible(eje_x)){
+                //detectar si la luz ambiente da visibilidad
+                ADCluxLevel(1);
+                //refresca la pantalla con el movimiento actualizado
+                dibujar();
+            }
 	    }
-		/* espera ~0.125 s */
-		start = ticks;
-		while ((ticks - start) < 12*0.125) // 1/0.125 = 8KHz
-			;
 	}
 
 }
@@ -126,7 +123,8 @@ int main()
 //		función de interrupción del timer. 
 //		Cuenta un tick por cada ciclo de reloj.
 //	*********************************************************************** //
-void timer_interrupt(void)
-{
-	++ticks;
+#pragma vector = TIMER0_A0_VECTOR
+__interrupt void RTI_T0_TACCR0(void) {
+    flag = 1;
+    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
 }
