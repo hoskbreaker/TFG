@@ -1,1 +1,0 @@
-"./PCD8544.obj" "./adc.obj" "./i2c.obj" "./main.obj" "./mma8451.obj" "../lnk_msp430g2553.cmd" -llibc.a 
