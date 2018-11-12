@@ -68,7 +68,7 @@ int main()
 	/* divide el valor del reloj por 8: 125 kHz */
 	TA0CTL |= ID_3;
 	/* establece el valor de comparacion en 2 Hz frecuencia de ticks */
-	TA0CCR0 = 62500;
+	TA0CCR0 = 62499;
 	/* activa el interruptor de comparacion */
 	TA0CCTL0 = CCIE;
 	/* inicia el timer (up mode) */
