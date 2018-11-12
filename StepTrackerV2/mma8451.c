@@ -247,7 +247,7 @@ void MMA8451_8g ( void )
 //	*********************************************************************** //
 void MMA8451DataRate( void )
 {
-    uint8_t DRValue = MMA8451_DR_100_HZ;
+    uint8_t DRValue = MMA8451_DR_6_25_HZ;
     uint8_t ctrl;
     MMA8451StandBy();
     ctrl = read_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG1);
@@ -309,8 +309,10 @@ void MMA8451OrientDetect( void )
 {
     MMA8451_2g();
     MMA8451DataRate();
-    MMA8451OverSampling(MMA8451_OSM_N);
+    MMA8451OverSampling(MMA8451_OSM_LP);
 }
+
+
 //	*********************************************************************** //
 //	Funciones explicadas en el prototipo
 //	*********************************************************************** //
