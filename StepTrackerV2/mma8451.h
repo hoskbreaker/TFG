@@ -93,5 +93,6 @@ void MMA8451_4g ( void );
 void MMA8451_8g ( void );
 void MMA8451DataRate( void );
 void MMA8451OverSampling ( uint8_t mode);
+void MMA8451InterruptConfiguration( void );
 //---------------------------------------//
 #endif // __MMA8451_H__

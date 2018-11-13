@@ -84,6 +84,7 @@ uint8_t MMA8451Init( void )
         }
         MMA8451Reset( );
         MMA8451OrientDetect( );
+        MMA8451InterruptConfiguration( );
     }
     return 0;
 }
@@ -312,6 +313,27 @@ void MMA8451OrientDetect( void )
     MMA8451OverSampling(MMA8451_OSM_LP);
 }
 
+void MMA8451InterruptConfiguration( void )
+{
+
+    //configuracion MMA8451
+    static const uint8_t INT_CONTROL_REGISTER = 0x00;
+    static const uint8_t IN_EN_DRDY = 0x01;
+    static const uint8_t IN_CFG_DRDY = 0x01;
+    static uint8_t ctrl;
+    MMA8451StandBy();
+    // CLEAR FAST READ
+    ctrl = read_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG1);
+    write_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG1, ctrl & 0xff);
+    // CONFIGURE INTERRUPT PINS
+    write_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG3, INT_CONTROL_REGISTER & 0xff);
+    //CONFIGURE ENABLE DATA READY INTERRUPT
+    write_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG4, IN_EN_DRDY & 0xff);
+    //CONFIGURE ENABLE FLAG ROUTING WITH INTERRUPT PIN 1
+    write_byte(MMA8451_I2C_ADDRESS, MMA8451_CTRL_REG5, IN_CFG_DRDY & 0xff);
+    MMA8451Active();
+
+}
 
 //	*********************************************************************** //
 //	Funciones explicadas en el prototipo
