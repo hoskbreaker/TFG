@@ -95,6 +95,7 @@ int main()
 
 	    __low_power_mode_0();
 	    if(flag){
+	        MMA8451StandBy();
 	        flag = 0;
 	        eje_x=normalizar(MMA8451GetXAxis());	//valor eje x normalizado
             eje_y=normalizar(MMA8451GetYAxis());	//valor eje y normalizado
@@ -112,6 +113,7 @@ int main()
                 //refresca la pantalla con el movimiento actualizado
                 dibujar();
             }
+            MMA8451Active();
 	    }
 	}
 
