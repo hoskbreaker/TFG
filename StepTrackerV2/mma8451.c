@@ -335,6 +335,15 @@ void MMA8451InterruptConfiguration( void )
 
 }
 
+void MMA8451GPIOInterruptConfiguration( void )
+{
+    //configuraci󮠰eriferico
+      //P2DIR &= ~BIT0; //P2.0 input
+      P2IES |=  BIT0; //P2.0 high to low transition
+      P2IFG &= ~BIT0; //P2.0 clear interrupt flag
+      P2IE  |=  BIT0; //enable P2.0 interrupt
+}
+
 //	*********************************************************************** //
 //	Funciones explicadas en el prototipo
 //	*********************************************************************** //

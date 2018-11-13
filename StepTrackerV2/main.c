@@ -38,6 +38,28 @@ int normalizar(uint8_t x)
     }
     return norm;
 }
+
+void TimerConfiguration(){
+    /* comprobacion de las constantes de calibracion estan correctas */
+      if (CALBC1_1MHZ == 0xff || CALDCO_1MHZ == 0xff) {
+          for (;;)
+              ;
+      }
+      /* carga configuracion de calibración para reloj de 1 MHz DCO */
+      BCSCTL1 = CALBC1_1MHZ;
+      DCOCTL = CALDCO_1MHZ;
+
+      /* selecciona SMCLK como reloj fuente para el timer A0, resetea el timer */
+      TA0CTL = TASSEL_2 | TACLR;
+      /* divide el valor del reloj por 8: 125 kHz */
+      TA0CTL |= ID_3;
+      /* establece el valor de comparacion en 2 Hz frecuencia de ticks */
+      TA0CCR0 = 62499;
+      /* activa el interruptor de comparacion */
+      TA0CCTL0 = CCIE;
+      /* inicia el timer (up mode) */
+      TA0CTL |= MC_1;
+}
 //	*********************************************************************** //
 // 2) int main(void):
 
@@ -54,47 +76,32 @@ int main()
 	/* desactiva watchdog */
 	WDTCTL = WDTPW | WDTHOLD;
 
-	/* comprobacion de las constantes de calibracion estan correctas */
-	if (CALBC1_1MHZ == 0xff || CALDCO_1MHZ == 0xff) {
-		for (;;)
-			;
-	}
-	/* carga configuracion de calibración para reloj de 1 MHz DCO */
-	BCSCTL1 = CALBC1_1MHZ;
-	DCOCTL = CALDCO_1MHZ;
+	/*configura timer para interrupcion*/
+	//TimerConfiguration();
 
-	/* selecciona SMCLK como reloj fuente para el timer A0, resetea el timer */
-	TA0CTL = TASSEL_2 | TACLR;
-	/* divide el valor del reloj por 8: 125 kHz */
-	TA0CTL |= ID_3;
-	/* establece el valor de comparacion en 2 Hz frecuencia de ticks */
-	TA0CCR0 = 62499;
-	/* activa el interruptor de comparacion */
-	TA0CCTL0 = CCIE;
-	/* inicia el timer (up mode) */
-	TA0CTL |= MC_1;
-
-	/* activa interrupción */
-	__bis_SR_register(GIE);
+	/*configura P2.0 para interrupcion*/
+	MMA8451GPIOInterruptConfiguration( );
 
 	/*inicia modo I2C */
 	init_i2c();
 	/* Inicia configuración LCD */
 	initLCD();
-	/* Inicia configuración del acelerómetro */
-	MMA8451Init();
 	/* Inicia configuración del ADC */
 	initADClux();
-	
 	//limpia pantalla
 	clearLCD();
 	// Mensaje de inicio en la aplicación
 	punto(10,10,"Step-Tracker");
+    /* activa interrupción */
+    __bis_SR_register(GIE);
+    /* Inicia configuración del acelerómetro */
+    MMA8451Init();
 	
 	for(;;) {
 
 	    __low_power_mode_0();
 	    if(flag){
+
 	        MMA8451StandBy();
 	        flag = 0;
 	        eje_x=normalizar(MMA8451GetXAxis());	//valor eje x normalizado
@@ -125,8 +132,21 @@ int main()
 //		función de interrupción del timer. 
 //		Cuenta un tick por cada ciclo de reloj.
 //	*********************************************************************** //
-#pragma vector = TIMER0_A0_VECTOR
-__interrupt void RTI_T0_TACCR0(void) {
+//#pragma vector = TIMER0_A0_VECTOR
+//__interrupt void RTI_T0_TACCR0(void) {
+//    flag = 1;
+//    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
+//}
+//  *********************************************************************** //
+// 3) timer_interrupt(void):
+
+//  Descripción:
+//      función de interrupción del timer.
+//      Cuenta un tick por cada ciclo de reloj.
+//  *********************************************************************** //
+#pragma vector = PORT2_VECTOR
+__interrupt void RTI_PORT2(void) {
     flag = 1;
+    P2IFG &= ~BIT0; //P2.0 clear interrupt flag
     __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
 }
