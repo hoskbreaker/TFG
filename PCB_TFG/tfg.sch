@@ -1666,9 +1666,6 @@ W = angled&lt;p&gt;
 <pinref part="ACELEROMETRO" gate="G$1" pin="2"/>
 <wire x1="149.86" y1="68.58" x2="149.86" y2="12.7" width="0.1524" layer="91"/>
 <junction x="149.86" y="12.7"/>
-<pinref part="ACELEROMETRO" gate="G$1" pin="1"/>
-<wire x1="147.32" y1="68.58" x2="147.32" y2="12.7" width="0.1524" layer="91"/>
-<junction x="147.32" y="12.7"/>
 <label x="10.16" y="12.7" size="1.778" layer="95"/>
 <label x="63.5" y="35.56" size="1.778" layer="95"/>
 <label x="116.84" y="27.94" size="1.778" layer="95"/>
@@ -1835,6 +1832,14 @@ W = angled&lt;p&gt;
 <pinref part="T1" gate="G$1" pin="B"/>
 <wire x1="27.94" y1="33.02" x2="27.94" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="40.64" x2="35.56" y2="40.64" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="MSP430G2553" gate="G$1" pin="8"/>
+<pinref part="ACELEROMETRO" gate="G$1" pin="5"/>
+<wire x1="93.98" y1="45.72" x2="157.48" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="157.48" y1="45.72" x2="157.48" y2="68.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
