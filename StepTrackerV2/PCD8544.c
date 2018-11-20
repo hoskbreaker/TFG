@@ -31,14 +31,12 @@
 
 //variables locales
 
-static volatile uint8_t stop[3]={0,0,0};
 static volatile uint8_t fila = PUNTO_FILA_INICIAL;
-static volatile unsigned int af=0;
-static volatile unsigned int ac=0;
-static uint8_t f_ant[5]={0,0,0,0,0};
-static uint8_t c_ant[5]={0,0,0,0,0};
 static volatile uint8_t columna = PUNTO_COLUMNA_INICIAL;
-static volatile uint8_t mov;
+static volatile uint8_t f_ant =PUNTO_FILA_INICIAL;
+static volatile uint8_t c_ant= PUNTO_COLUMNA_INICIAL;
+static volatile uint8_t s_ant;
+static volatile uint8_t izquierda = 0;
 
 //----------SUBPROGRAMAS ACELERÓMETRO--------------------//
 //	*********************************************************************** //
@@ -134,6 +132,14 @@ void writeStringToLCD(const char *string) {
         writeCharToLCD(*string++);
     }
 }
+
+void writeBlockToLCD(char *byte, unsigned char length) {
+    unsigned char c = 0;
+    while(c < length) {
+        writeToLCD(LCD5110_DATA, *byte++);
+        c++;
+    }
+}
 //	*********************************************************************** //
 // 6) void clearLCD():
 
@@ -177,19 +183,7 @@ void clearBank(unsigned char bank) {
 
 int visible(int x)
 {
-    uint8_t aux = 0;
-    if(stop[0]==0){
-        if(x>=0){
-            stop[0] = 1;
-            aux = 0;
-        }
-    }else if(stop[0] == 1){
-        if( x<=-10){
-            stop[0] = 0;
-            aux=1;
-        }
-    }
-    return aux;
+
 }
 //	*********************************************************************** //
 // 8) void punto(uint8_t fila, uint8_t columna, char *caracter):
@@ -209,6 +203,11 @@ void punto(uint8_t fila, uint8_t columna, char *caracter)
     writeStringToLCD(caracter);
 }
 
+void cola (uint8_t fila, uint8_t columna, uint16_t bytes)
+{
+    setAddr(fila, columna);
+    writeToLCD(LCD5110_DATA, bytes);
+}
 //	*********************************************************************** //
 // 9) int direccion(int d):
 //	->int d: dirección tomada.
@@ -217,31 +216,41 @@ void punto(uint8_t fila, uint8_t columna, char *caracter)
 //		detecta si el usuario a cambiado la dirección
 //		o la ha mantenido.
 //	*********************************************************************** //
-int direccion(int d)
+void direccion(int d)
 {
-    int aux=0;
-    if(stop[1]==0){
-       if(d>=20){
-           //izquierda
-           stop[1] = 1;
-       }else if(d<=-20){
-           //derecha
-           stop[1]=2;
-       }
-   }else if(stop[1] == 1){
-       //completa izquierda
-       if( d<=-20){
-           stop[1] = 0;
-           aux=-1;
-       }
-   }else if(stop[1]==2){
-       //completa derecha
-       if( d<=-20){
-          stop[1] = 0;
-          aux=1;
-      }
-   }
-   return aux;
+    if(control){
+        if(d<=EJE_Y_INICIAL-10 && databyte<MAX_SHIFT-1){
+            databyte++;
+            if(!izquierda){
+                izquierda = 1;
+            }
+        }else if (d<=EJE_Y_INICIAL-10 && databyte>=MAX_SHIFT-1){
+            fila++;
+            databyte = 1;
+        }else if (d>EJE_Y_INICIAL+10 && databyte < MAX_SHIFT-1){
+            databyte++;
+            if(izquierda){
+                izquierda = 0;
+            }
+        }else if(d>EJE_Y_INICIAL+10 && databyte >= MAX_SHIFT-1){
+            fila--;
+            databyte = 1;
+        }
+    }else{
+        if(d<=EJE_Y_INICIAL-10 && shift<MAX_SHIFT){
+            shift++;
+        }else if (d<=EJE_Y_INICIAL-10 && shift>=MAX_SHIFT){
+            fila++;
+            shift = 1;
+        }else if (d>EJE_Y_INICIAL+10 && shift > MIN_SHIFT){
+            shift--;
+        }else if(d> EJE_Y_INICIAL+10 && shift <= MIN_SHIFT){
+            fila--;
+            shift = 7;
+        }
+    }
+    f_ant = fila;
+    s_ant = shift;
 }
 //	*********************************************************************** //
 // 10) uint8_t paso(int p):
@@ -250,20 +259,17 @@ int direccion(int d)
 //	Descripción:
 //		detecta si el usuario a dado un paso o no.
 //	*********************************************************************** //
-uint8_t paso(int p)
+void paso(int p)
 {
-    uint8_t aux = 0;
-    if(stop[2]==0){
-        if(p>=20){
-            stop[2] = 1;
-        }
-    }else if(stop[2] == 1){
-        if( p<=-20){
-            stop[2] = 0;
-            aux=1;
-        }
+    if(columna == c_ant){
+        control = 1;
     }
-    return aux;
+    c_ant = columna;
+    if(p<=EJE_Z_INICIAL-20){
+        columna++;
+    }else if (p > EJE_Z_INICIAL +20){
+        columna--;
+    }
 }
 //	*********************************************************************** //
 // 11) void mover (int d):
@@ -275,22 +281,7 @@ uint8_t paso(int p)
 //	*********************************************************************** //
 void mover (int d)
 {
-    unsigned int i;
-    movimiento(d);
-    f_ant[af]=fila;
-    c_ant[ac]=columna;
-    fila = fila + Fila[mov];
-    columna = columna +Columna[mov];
-    af++;
-    ac++;
-    if(ac<=5 && af<=5){
-        for(i=0;i<4;i++){
-            f_ant[i]=f_ant[i+1];
-            c_ant[i]=c_ant[i+1];
-        }
-        ac=4;
-        af=4;
-    }
+
 }
 //	*********************************************************************** //
 // 12) void recuadro():
@@ -302,7 +293,7 @@ void mover (int d)
 void recuadro()
 {
     int i;
-    for(i=0;i<40;i++){
+    for(i=0;i<81;i++){
         punto(0,i/2,"|");
         punto(i*2,21,"-");
         punto(80,i/2,"|");
@@ -322,15 +313,30 @@ void recuadro()
 //	*********************************************************************** //
 void dibujar ()
 {
-    int i;
-    clearLCD();
-    recuadro();
-    for (i=0; i<5; i++){
-        if(c_ant[i]!= 0 && f_ant[i] != 0){
-            punto(c_ant[i], f_ant[i], ".");
-        }
+    if(columna >MAX_COLUMNA){
+        columna = 0;
+    }else if(columna <=0){
+        columna = MAX_COLUMNA;
     }
-    punto(columna, fila, "*");
+    if(fila > MAX_FILA){
+        fila = 0;
+    }else if(fila <= 0){
+        fila = MAX_FILA;
+    }
+    if(control){
+        if(izquierda){
+            cola(columna,fila,MOVE_LEFT[databyte]);
+        }else{
+            cola(columna,fila,MOVE_RIGHT[databyte]);
+        }
+        shift = 0;
+        control = 0;
+    }else{
+        cola(columna,fila,0x01<<shift);
+        databyte = 1;
+    }
+
+
 }
 //	*********************************************************************** //
 // 14) void movimiento (int d):
@@ -342,11 +348,5 @@ void dibujar ()
 //	*********************************************************************** //
 void movimiento (int d)
 {
-    mov= mov + d;
 
-    if(mov>=8){
-        mov = 0;
-    }else if(mov<0){
-        mov = 7;
-    }
 }

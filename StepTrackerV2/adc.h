@@ -12,6 +12,6 @@
 #include <stdint.h>
 
 void initADClux(void);
-void ADCluxLevel(int allow);
+void ADCluxLevel(uint8_t adc);
 
 #endif

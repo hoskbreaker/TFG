@@ -49,16 +49,31 @@
 // LCD declaración de funciones
 #define PUNTO_FILA_INICIAL          18
 #define PUNTO_COLUMNA_INICIAL       50
+#define BYTE_INICIAL                0x01;
 
-static const int Fila[8]={1,1,0,-1,-1,-1,0,1};
-static const int Columna[8]={0,1,1,1,0,-1,-1,-1};
+#define MAX_SHIFT                   7
+#define MIN_SHIFT                   0
 
+#define MAX_COLUMNA                 84
+#define MAX_FILA                    40
+
+#define EJE_Y_INICIAL               0
+#define EJE_Z_INICIAL               2
+
+static const uint8_t MOVE_LEFT[MAX_SHIFT]={0x00,0x01,0x03,0x07,0x0f,0x1f,0x3f,0x7f,0xff};
+static const uint8_t MOVE_RIGHT[MAX_SHIFT]={0x00,0x80,0xc0,0xe0,0xf0,0xf8,0xfc,0xfe,0xff};
+//static const int Columna[8]={0,1,1,1,0,-1,-1,-1};
+
+
+
+static uint8_t databyte, shift, control;
 
 // Sets LCD address (x = 0..83, y = 0..5)
 void setAddr(unsigned char xAddr, unsigned char yAddr);
 void writeToLCD(unsigned char dataCommand, unsigned char data);
 void writeCharToLCD(char c);
 void writeStringToLCD(const char *string);
+void writeBlockToLCD(char *byte, unsigned char length);
 void initLCD();
 void clearLCD();
 void clearBank(unsigned char bank);
@@ -66,8 +81,9 @@ void exampleLCD();
 void ShowAxisValue(int x, int y, int z);
 //-----------------funcionalidades añadidas---------------
 void punto(uint8_t fila, uint8_t columna, char *caracter);
-uint8_t paso(int p);
-int direccion(int d);
+void cola(uint8_t fila, uint8_t columna, uint16_t bytes);
+void paso(int p);
+void direccion(int d);
 void movimiento(int d);
 void dibujar();
 int visible(int x);

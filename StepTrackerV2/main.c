@@ -17,8 +17,7 @@
 
 //variables locales
 uint8_t flag = 0;
-static volatile int posicion;
-static volatile char barra;
+uint8_t adc = 0;
 //-----SUBPROGRAMAS MAIN-------//
 //	*********************************************************************** //
 // 1) int normalizar(uint8_t x):
@@ -77,10 +76,10 @@ int main()
 	WDTCTL = WDTPW | WDTHOLD;
 
 	/*configura timer para interrupcion*/
-	//TimerConfiguration();
+	TimerConfiguration();
 
 	/*configura P2.0 para interrupcion*/
-	MMA8451GPIOInterruptConfiguration( );
+	//MMA8451GPIOInterruptConfiguration( );
 
 	/*inicia modo I2C */
 	init_i2c();
@@ -91,7 +90,7 @@ int main()
 	//limpia pantalla
 	clearLCD();
 	// Mensaje de inicio en la aplicación
-	punto(10,10,"Step-Tracker");
+	//punto(10,10,"Step-Tracker");
     /* activa interrupción */
     __bis_SR_register(GIE);
     /* Inicia configuración del acelerómetro */
@@ -102,25 +101,25 @@ int main()
 	    __low_power_mode_0();
 	    if(flag){
 
-	        MMA8451StandBy();
+	        //MMA8451StandBy();
 	        flag = 0;
 	        eje_x=normalizar(MMA8451GetXAxis());	//valor eje x normalizado
             eje_y=normalizar(MMA8451GetYAxis());	//valor eje y normalizado
             eje_z=normalizar(MMA8451GetZAxis());	//valor eje z normalizado
 
             //si el acelerómetro detecta un paso
-            if(paso(eje_z)){
-                //si el paso incluye cambio de dirección
-                mover(direccion(eje_y));
-            }
-            //si el usuario quiere mirar la pantalla
-            if(visible(eje_x)){
-                //detectar si la luz ambiente da visibilidad
-                ADCluxLevel(1);
-                //refresca la pantalla con el movimiento actualizado
-                dibujar();
-            }
-            MMA8451Active();
+            paso(eje_z);
+            direccion(eje_y);
+            dibujar();
+            ADCluxLevel(adc);
+//            //si el usuario quiere mirar la pantalla
+//            if(visible(eje_x)){
+//                //detectar si la luz ambiente da visibilidad
+//
+//                //refresca la pantalla con el movimiento actualizado
+//                dibujar();
+//            }
+            //MMA8451Active();
 	    }
 	}
 
@@ -132,11 +131,12 @@ int main()
 //		función de interrupción del timer. 
 //		Cuenta un tick por cada ciclo de reloj.
 //	*********************************************************************** //
-//#pragma vector = TIMER0_A0_VECTOR
-//__interrupt void RTI_T0_TACCR0(void) {
-//    flag = 1;
-//    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
-//}
+#pragma vector = TIMER0_A0_VECTOR
+__interrupt void RTI_T0_TACCR0(void) {
+    flag = 1;
+    ADC10CTL0 |= ENC + ADC10SC;             // comienza muestreo y conversiÃ³n del valor
+    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
+}
 //  *********************************************************************** //
 // 3) timer_interrupt(void):
 
@@ -144,9 +144,15 @@ int main()
 //      función de interrupción del timer.
 //      Cuenta un tick por cada ciclo de reloj.
 //  *********************************************************************** //
-#pragma vector = PORT2_VECTOR
-__interrupt void RTI_PORT2(void) {
-    flag = 1;
-    P2IFG &= ~BIT0; //P2.0 clear interrupt flag
-    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
-}
+//#pragma vector = PORT2_VECTOR
+//__interrupt void RTI_PORT2(void) {
+//    flag = 1;
+//    P2IFG &= ~BIT0; //P2.0 clear interrupt flag
+//    __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
+//}
+//INTERRUPCION DEL ADC
+#pragma vector=ADC10_VECTOR
+__interrupt void ADC10_ISR(void)
+{
+    adc = 1; // Sale bajo consumo (LPM0)
+};

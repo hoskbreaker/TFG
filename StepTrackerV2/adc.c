@@ -7,7 +7,10 @@
 //---------------------------------------------------------------//
 #include "adc.h"
 
-#define UMBRAL 0xFF
+#define UMBRAL 0x0F
+#define ON     1
+#define OFF    0
+
 
 //	*********************************************************************** //
 // 1) void initADClux(void):
@@ -31,11 +34,11 @@ void initADClux(void)
 //	Descripción:
 //		Activa o desactiva la lectura del ADC
 //	*********************************************************************** //
-void ADCluxLevel(int allow)
+void ADCluxLevel(uint8_t adc)
 {
-    if(allow){
-        ADC10CTL0 |= ENC + ADC10SC;             // comienza muestreo y conversión del valor
-        __bis_SR_register(CPUOFF + GIE);        // ADC10_ISR fuerza la salida del modo bajo consumo (LPM0)
+    ADC10CTL0 |= ENC + ADC10SC;             // comienza muestreo y conversión del valor
+    if(adc == ON){
+        adc = OFF;
         if (ADC10MEM < UMBRAL){					//si el valor es menor al umbral de luz
             P1OUT |= BIT1;                        // establece P1.1 LCD LED off
         }else{
@@ -45,9 +48,3 @@ void ADCluxLevel(int allow)
         P1OUT |= BIT1;                       // Clear P1.1 LCD LED on
     }
 }
-//INTERRUPCION DEL ADC
-#pragma vector=ADC10_VECTOR
-__interrupt void ADC10_ISR(void)
-{
-  __bic_SR_register_on_exit(CPUOFF);        // libera CPUOFF bit para 0(SR)
-};
