@@ -97,7 +97,7 @@ int main()
     MMA8451Init();
 	
 	for(;;) {
-
+	    ADC10CTL0 |= ENC + ADC10SC;             // comienza muestreo y conversión del valor
 	    __low_power_mode_0();
 	    if(flag){
 
@@ -111,7 +111,6 @@ int main()
             paso(eje_z);
             direccion(eje_y);
             dibujar();
-            ADCluxLevel(adc);
 //            //si el usuario quiere mirar la pantalla
 //            if(visible(eje_x)){
 //                //detectar si la luz ambiente da visibilidad
@@ -134,7 +133,6 @@ int main()
 #pragma vector = TIMER0_A0_VECTOR
 __interrupt void RTI_T0_TACCR0(void) {
     flag = 1;
-    ADC10CTL0 |= ENC + ADC10SC;             // comienza muestreo y conversión del valor
     __low_power_mode_off_on_exit(); // Sale bajo consumo (LPM0)
 }
 //  *********************************************************************** //
@@ -154,5 +152,10 @@ __interrupt void RTI_T0_TACCR0(void) {
 #pragma vector=ADC10_VECTOR
 __interrupt void ADC10_ISR(void)
 {
-    adc = 1; // Sale bajo consumo (LPM0)
+    adc= ADC10MEM;
+    if (adc > 100){                 //si el valor es menor al umbral de luz
+        P1OUT |= BIT1;                      // establece P1.1 LCD LED off
+    }else{
+        P1OUT &= ~BIT1;                     // establece P1.1 LCD LED on
+    }
 };

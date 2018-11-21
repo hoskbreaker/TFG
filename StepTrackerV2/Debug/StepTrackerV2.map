@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v18.1.3                     
 ******************************************************************************
->> Linked Tue Nov 20 21:05:30 2018
+>> Linked Wed Nov 21 18:50:19 2018
 
 OUTPUT FILE NAME:   <StepTrackerV2.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000c7ee
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000c7ca
 
 
 MEMORY CONFIGURATION
@@ -19,7 +19,7 @@ MEMORY CONFIGURATION
   INFOC                 00001040   00000040  00000000  00000040  RWIX
   INFOB                 00001080   00000040  00000000  00000040  RWIX
   INFOA                 000010c0   00000040  00000000  00000040  RWIX
-  FLASH                 0000c000   00003fde  0000092d  000036b1  RWIX
+  FLASH                 0000c000   00003fde  00000915  000036c9  RWIX
   BSLSIGNATURE          0000ffde   00000002  00000002  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000002  00000000  RWIX
   INT01                 0000ffe2   00000002  00000000  00000002  RWIX
@@ -57,68 +57,67 @@ section   page    origin      length       input sections
                   000003b0    00000002     rts430_eabi.lib : boot.c.obj (.stack)
                   000003b2    0000004e     --HOLE--
 
-.text      0    0000c000    000008fe     
+.text      0    0000c000    000008e6     
                   0000c000    000000d4     PCD8544.obj (.text:direccion)
                   0000c0d4    00000092     PCD8544.obj (.text:dibujar)
                   0000c166    00000084     mma8451.obj (.text:MMA8451OverSampling)
                   0000c1ea    00000084     i2c.obj (.text:tx_interrupt)
                   0000c26e    00000080     PCD8544.obj (.text:initLCD)
                   0000c2ee    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  0000c36a    0000005e     main.obj (.text:main)
-                  0000c3c8    00000050     i2c.obj (.text:init_i2c)
-                  0000c418    0000004e     mma8451.obj (.text:MMA8451InterruptConfiguration)
-                  0000c466    0000004c     rts430_eabi.lib : lsr16.asm.obj (.text)
-                  0000c4b2    00000042                     : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  0000c4f4    0000003e     mma8451.obj (.text:read_byte)
-                  0000c532    0000003c     mma8451.obj (.text:MMA8451DataRate)
-                  0000c56e    0000003c     main.obj (.text:TimerConfiguration)
-                  0000c5aa    0000003c     i2c.obj (.text:i2c_read)
-                  0000c5e6    00000034     mma8451.obj (.text:MMA8451Init)
-                  0000c61a    0000002c     mma8451.obj (.text:MMA8451Reset)
-                  0000c646    0000002c     rts430_eabi.lib : lsl16.asm.obj (.text)
-                  0000c672    0000002a     PCD8544.obj (.text:clearLCD)
-                  0000c69c    0000002a     PCD8544.obj (.text:paso)
-                  0000c6c6    00000026     i2c.obj (.text:i2c_write)
-                  0000c6ec    00000024     adc.obj (.text:ADCluxLevel)
-                  0000c710    00000024     mma8451.obj (.text:MMA8451_2g)
-                  0000c734    00000022     PCD8544.obj (.text:writeToLCD)
-                  0000c756    00000020     mma8451.obj (.text:write_byte)
-                  0000c776    0000001e     mma8451.obj (.text:MMA8451Active)
-                  0000c794    0000001e     mma8451.obj (.text:MMA8451StandBy)
-                  0000c7b2    0000001e     adc.obj (.text:initADClux)
-                  0000c7d0    0000001e     i2c.obj (.text:rx_interrupt)
-                  0000c7ee    0000001c     rts430_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
-                  0000c80a    0000001a     PCD8544.obj (.text:setAddr)
-                  0000c824    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  0000c838    00000012     mma8451.obj (.text:MMA8451OrientDetect)
-                  0000c84a    00000012     main.obj (.text:RTI_T0_TACCR0)
-                  0000c85c    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  0000c86e    00000012                     : memcpy.c.obj (.text:memcpy)
-                  0000c880    00000012     main.obj (.text:normalizar)
-                  0000c892    00000010     rts430_eabi.lib : epilog.asm.obj (.text)
-                  0000c8a2    0000000e     mma8451.obj (.text:MMA8451GetYAxis)
-                  0000c8b0    0000000e     mma8451.obj (.text:MMA8451GetZAxis)
-                  0000c8be    0000000e     PCD8544.obj (.text:cola)
-                  0000c8cc    0000000c     mma8451.obj (.text:MMA8451GetXAxis)
-                  0000c8d8    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  0000c8e0    00000006     main.obj (.text:ADC10_ISR)
-                  0000c8e6    00000006     mma8451.obj (.text:MMA8451SetDeviceAddr)
-                  0000c8ec    00000006     rts430_eabi.lib : exit.c.obj (.text:abort)
-                  0000c8f2    00000006     i2c.obj (.text:i2c_busy)
-                  0000c8f8    00000004     rts430_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  0000c8fc    00000002                     : startup.c.obj (.text:_system_post_cinit)
+                  0000c36a    0000005c     main.obj (.text:main)
+                  0000c3c6    00000050     i2c.obj (.text:init_i2c)
+                  0000c416    0000004e     mma8451.obj (.text:MMA8451InterruptConfiguration)
+                  0000c464    0000004c     rts430_eabi.lib : lsr16.asm.obj (.text)
+                  0000c4b0    00000042                     : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  0000c4f2    0000003e     mma8451.obj (.text:read_byte)
+                  0000c530    0000003c     mma8451.obj (.text:MMA8451DataRate)
+                  0000c56c    0000003c     main.obj (.text:TimerConfiguration)
+                  0000c5a8    0000003c     i2c.obj (.text:i2c_read)
+                  0000c5e4    00000034     mma8451.obj (.text:MMA8451Init)
+                  0000c618    0000002c     mma8451.obj (.text:MMA8451Reset)
+                  0000c644    0000002c     rts430_eabi.lib : lsl16.asm.obj (.text)
+                  0000c670    0000002a     PCD8544.obj (.text:clearLCD)
+                  0000c69a    0000002a     PCD8544.obj (.text:paso)
+                  0000c6c4    00000026     i2c.obj (.text:i2c_write)
+                  0000c6ea    00000024     mma8451.obj (.text:MMA8451_2g)
+                  0000c70e    00000022     PCD8544.obj (.text:writeToLCD)
+                  0000c730    00000020     main.obj (.text:ADC10_ISR)
+                  0000c750    00000020     mma8451.obj (.text:write_byte)
+                  0000c770    0000001e     mma8451.obj (.text:MMA8451Active)
+                  0000c78e    0000001e     mma8451.obj (.text:MMA8451StandBy)
+                  0000c7ac    0000001e     i2c.obj (.text:rx_interrupt)
+                  0000c7ca    0000001c     rts430_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
+                  0000c7e6    0000001a     PCD8544.obj (.text:setAddr)
+                  0000c800    00000018     adc.obj (.text:initADClux)
+                  0000c818    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  0000c82c    00000012     mma8451.obj (.text:MMA8451OrientDetect)
+                  0000c83e    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  0000c850    00000012                     : memcpy.c.obj (.text:memcpy)
+                  0000c862    00000012     main.obj (.text:normalizar)
+                  0000c874    00000010     rts430_eabi.lib : epilog.asm.obj (.text)
+                  0000c884    0000000e     mma8451.obj (.text:MMA8451GetYAxis)
+                  0000c892    0000000e     mma8451.obj (.text:MMA8451GetZAxis)
+                  0000c8a0    0000000e     PCD8544.obj (.text:cola)
+                  0000c8ae    0000000c     mma8451.obj (.text:MMA8451GetXAxis)
+                  0000c8ba    0000000c     main.obj (.text:RTI_T0_TACCR0)
+                  0000c8c6    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  0000c8ce    00000006     mma8451.obj (.text:MMA8451SetDeviceAddr)
+                  0000c8d4    00000006     rts430_eabi.lib : exit.c.obj (.text:abort)
+                  0000c8da    00000006     i2c.obj (.text:i2c_busy)
+                  0000c8e0    00000004     rts430_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  0000c8e4    00000002                     : startup.c.obj (.text:_system_post_cinit)
 
-.const     0    0000c8fe    0000000f     
-                  0000c8fe    00000007     PCD8544.obj (.const:.string:MOVE_LEFT)
-                  0000c905    00000001     --HOLE-- [fill = 0]
-                  0000c906    00000007     PCD8544.obj (.const:.string:MOVE_RIGHT)
+.const     0    0000c8e6    0000000f     
+                  0000c8e6    00000007     PCD8544.obj (.const:.string:MOVE_LEFT)
+                  0000c8ed    00000001     --HOLE-- [fill = 0]
+                  0000c8ee    00000007     PCD8544.obj (.const:.string:MOVE_RIGHT)
 
-.cinit     0    0000c90e    00000020     
-                  0000c90e    0000000d     (.cinit..data.load) [load image]
-                  0000c91b    00000001     --HOLE-- [fill = 0]
-                  0000c91c    00000006     (__TI_handler_table)
-                  0000c922    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000c926    00000008     (__TI_cinit_table)
+.cinit     0    0000c8f6    00000020     
+                  0000c8f6    0000000d     (.cinit..data.load) [load image]
+                  0000c903    00000001     --HOLE-- [fill = 0]
+                  0000c904    00000006     (__TI_handler_table)
+                  0000c90a    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000c90e    00000008     (__TI_cinit_table)
 
 .binit     0    0000c000    00000000     
 
@@ -185,10 +184,10 @@ MODULE SUMMARY
        PCD8544.obj                  644    14        9      
        mma8451.obj                  620    0         2      
        i2c.obj                      346    4         14     
-       main.obj                     196    4         2      
-       adc.obj                      66     0         0      
+       main.obj                     214    4         2      
+       adc.obj                      24     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       1872   22        27     
+       Total:                       1848   22        27     
                                                             
     C:\ti\ccsv8\tools\compiler\ti-cgt-msp430_18.1.3.LTS\lib\rts430_eabi.lib
        copy_decompress_lzss.c.obj   124    0         0      
@@ -219,19 +218,19 @@ MODULE SUMMARY
        Stack:                       0      0         80     
        Linker Generated:            0      31        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 2302   73        107    
+       Grand Total:                 2278   73        107    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000c926 records: 2, size/record: 4, table size: 8
-	.data: load addr=0000c90e, load size=0000000d bytes, run addr=00000212, run size=00000009 bytes, compression=copy
-	.bss: load addr=0000c922, load size=00000004 bytes, run addr=00000200, run size=00000012 bytes, compression=zero_init
+__TI_cinit_table @ 0000c90e records: 2, size/record: 4, table size: 8
+	.data: load addr=0000c8f6, load size=0000000d bytes, run addr=00000212, run size=00000009 bytes, compression=copy
+	.bss: load addr=0000c90a, load size=00000004 bytes, run addr=00000200, run size=00000012 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000c91c records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 0000c904 records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -248,12 +247,11 @@ address   name
 00000049  ADC10DTC1                     
 000001b4  ADC10MEM                      
 000001bc  ADC10SA                       
-0000c8e0  ADC10_ISR                     
-0000c6ec  ADCluxLevel                   
+0000c730  ADC10_ISR                     
 00000057  BCSCTL1                       
 00000058  BCSCTL2                       
 00000053  BCSCTL3                       
-0000c8ec  C$$EXIT                       
+0000c8d4  C$$EXIT                       
 00000059  CACTL1                        
 0000005a  CACTL2                        
 000010fb  CALBC1_12MHZ                  
@@ -273,19 +271,19 @@ address   name
 00000001  IE2                           
 00000002  IFG1                          
 00000003  IFG2                          
-0000c776  MMA8451Active                 
-0000c532  MMA8451DataRate               
-0000c8cc  MMA8451GetXAxis               
-0000c8a2  MMA8451GetYAxis               
-0000c8b0  MMA8451GetZAxis               
-0000c5e6  MMA8451Init                   
-0000c418  MMA8451InterruptConfiguration 
-0000c838  MMA8451OrientDetect           
+0000c770  MMA8451Active                 
+0000c530  MMA8451DataRate               
+0000c8ae  MMA8451GetXAxis               
+0000c884  MMA8451GetYAxis               
+0000c892  MMA8451GetZAxis               
+0000c5e4  MMA8451Init                   
+0000c416  MMA8451InterruptConfiguration 
+0000c82c  MMA8451OrientDetect           
 0000c166  MMA8451OverSampling           
-0000c61a  MMA8451Reset                  
-0000c8e6  MMA8451SetDeviceAddr          
-0000c794  MMA8451StandBy                
-0000c710  MMA8451_2g                    
+0000c618  MMA8451Reset                  
+0000c8ce  MMA8451SetDeviceAddr          
+0000c78e  MMA8451StandBy                
+0000c6ea  MMA8451_2g                    
 00000022  P1DIR                         
 00000025  P1IE                          
 00000024  P1IES                         
@@ -310,7 +308,7 @@ address   name
 00000010  P3REN                         
 0000001b  P3SEL                         
 00000043  P3SEL2                        
-0000c84a  RTI_T0_TACCR0                 
+0000c8ba  RTI_T0_TACCR0                 
 00000172  TA0CCR0                       
 00000174  TA0CCR1                       
 00000176  TA0CCR2                       
@@ -334,7 +332,7 @@ address   name
 000010c0  TLV_CHECKSUM                  
 000010f7  TLV_DCO_30_LEN                
 000010f6  TLV_DCO_30_TAG                
-0000c56e  TimerConfiguration            
+0000c56c  TimerConfiguration            
 0000005d  UCA0ABCTL                     
 00000062  UCA0BR0                       
 00000063  UCA0BR1                       
@@ -359,14 +357,14 @@ address   name
 00000120  WDTCTL                        
 00000400  __STACK_END                   
 00000050  __STACK_SIZE                  
-0000c926  __TI_CINIT_Base               
-0000c92e  __TI_CINIT_Limit              
-0000c91c  __TI_Handler_Table_Base       
-0000c922  __TI_Handler_Table_Limit      
-0000c8d8  __TI_ISR_TRAP                 
-0000c4b2  __TI_auto_init_nobinit_nopinit
+0000c90e  __TI_CINIT_Base               
+0000c916  __TI_CINIT_Limit              
+0000c904  __TI_Handler_Table_Base       
+0000c90a  __TI_Handler_Table_Limit      
+0000c8c6  __TI_ISR_TRAP                 
+0000c4b0  __TI_auto_init_nobinit_nopinit
 0000c2ee  __TI_decompress_lzss          
-0000c85c  __TI_decompress_none          
+0000c83e  __TI_decompress_none          
 0000ffe0  __TI_int00                    
 0000ffe4  __TI_int02                    
 0000ffe6  __TI_int03                    
@@ -383,73 +381,73 @@ address   name
 ffffffff  __TI_pprof_out_hndl           
 ffffffff  __TI_prof_data_size           
 ffffffff  __TI_prof_data_start          
-0000c824  __TI_zero_init_nomemset       
+0000c818  __TI_zero_init_nomemset       
 ffffffff  __c_args__                    
-0000c89e  __mspabi_func_epilog_1        
-0000c89c  __mspabi_func_epilog_2        
-0000c89a  __mspabi_func_epilog_3        
-0000c898  __mspabi_func_epilog_4        
-0000c896  __mspabi_func_epilog_5        
-0000c894  __mspabi_func_epilog_6        
-0000c892  __mspabi_func_epilog_7        
-0000c646  __mspabi_slli                 
-0000c66e  __mspabi_slli_1               
-0000c65c  __mspabi_slli_10              
-0000c65a  __mspabi_slli_11              
-0000c658  __mspabi_slli_12              
-0000c656  __mspabi_slli_13              
-0000c654  __mspabi_slli_14              
-0000c652  __mspabi_slli_15              
-0000c66c  __mspabi_slli_2               
-0000c66a  __mspabi_slli_3               
-0000c668  __mspabi_slli_4               
-0000c666  __mspabi_slli_5               
-0000c664  __mspabi_slli_6               
-0000c662  __mspabi_slli_7               
-0000c660  __mspabi_slli_8               
-0000c65e  __mspabi_slli_9               
-0000c466  __mspabi_srli                 
-0000c4ac  __mspabi_srli_1               
-0000c488  __mspabi_srli_10              
-0000c484  __mspabi_srli_11              
-0000c480  __mspabi_srli_12              
-0000c47c  __mspabi_srli_13              
-0000c478  __mspabi_srli_14              
-0000c474  __mspabi_srli_15              
-0000c4a8  __mspabi_srli_2               
-0000c4a4  __mspabi_srli_3               
-0000c4a0  __mspabi_srli_4               
-0000c49c  __mspabi_srli_5               
-0000c498  __mspabi_srli_6               
-0000c494  __mspabi_srli_7               
-0000c490  __mspabi_srli_8               
-0000c48c  __mspabi_srli_9               
-0000c7ee  _c_int00_noargs               
+0000c880  __mspabi_func_epilog_1        
+0000c87e  __mspabi_func_epilog_2        
+0000c87c  __mspabi_func_epilog_3        
+0000c87a  __mspabi_func_epilog_4        
+0000c878  __mspabi_func_epilog_5        
+0000c876  __mspabi_func_epilog_6        
+0000c874  __mspabi_func_epilog_7        
+0000c644  __mspabi_slli                 
+0000c66c  __mspabi_slli_1               
+0000c65a  __mspabi_slli_10              
+0000c658  __mspabi_slli_11              
+0000c656  __mspabi_slli_12              
+0000c654  __mspabi_slli_13              
+0000c652  __mspabi_slli_14              
+0000c650  __mspabi_slli_15              
+0000c66a  __mspabi_slli_2               
+0000c668  __mspabi_slli_3               
+0000c666  __mspabi_slli_4               
+0000c664  __mspabi_slli_5               
+0000c662  __mspabi_slli_6               
+0000c660  __mspabi_slli_7               
+0000c65e  __mspabi_slli_8               
+0000c65c  __mspabi_slli_9               
+0000c464  __mspabi_srli                 
+0000c4aa  __mspabi_srli_1               
+0000c486  __mspabi_srli_10              
+0000c482  __mspabi_srli_11              
+0000c47e  __mspabi_srli_12              
+0000c47a  __mspabi_srli_13              
+0000c476  __mspabi_srli_14              
+0000c472  __mspabi_srli_15              
+0000c4a6  __mspabi_srli_2               
+0000c4a2  __mspabi_srli_3               
+0000c49e  __mspabi_srli_4               
+0000c49a  __mspabi_srli_5               
+0000c496  __mspabi_srli_6               
+0000c492  __mspabi_srli_7               
+0000c48e  __mspabi_srli_8               
+0000c48a  __mspabi_srli_9               
+0000c7ca  _c_int00_noargs               
 0000fffe  _reset_vector                 
 000003b0  _stack                        
-0000c8fc  _system_post_cinit            
-0000c8f8  _system_pre_init              
-0000c8ec  abort                         
+0000c8e4  _system_post_cinit            
+0000c8e0  _system_pre_init              
+0000c8d4  abort                         
 00000218  adc                           
-0000c672  clearLCD                      
-0000c8be  cola                          
+0000c670  clearLCD                      
+0000c8a0  cola                          
 0000c0d4  dibujar                       
 0000c000  direccion                     
 00000217  flag                          
-0000c8f2  i2c_busy                      
-0000c5aa  i2c_read                      
-0000c6c6  i2c_write                     
-0000c7b2  initADClux                    
+0000c8da  i2c_busy                      
+0000c5a8  i2c_read                      
+0000c6c4  i2c_write                     
+0000c800  initADClux                    
 0000c26e  initLCD                       
-0000c3c8  init_i2c                      
+0000c3c6  init_i2c                      
 0000c36a  main                          
-0000c86e  memcpy                        
-0000c880  normalizar                    
-0000c69c  paso                          
-0000c7d0  rx_interrupt                  
-0000c80a  setAddr                       
+0000c850  memcpy                        
+0000c862  normalizar                    
+0000c69a  paso                          
+0000c7ac  rx_interrupt                  
+0000c7e6  setAddr                       
 0000c1ea  tx_interrupt                  
-0000c734  writeToLCD                    
+0000c70e  writeToLCD                    
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -566,87 +564,86 @@ address   name
 0000c26e  initLCD                       
 0000c2ee  __TI_decompress_lzss          
 0000c36a  main                          
-0000c3c8  init_i2c                      
-0000c418  MMA8451InterruptConfiguration 
-0000c466  __mspabi_srli                 
-0000c474  __mspabi_srli_15              
-0000c478  __mspabi_srli_14              
-0000c47c  __mspabi_srli_13              
-0000c480  __mspabi_srli_12              
-0000c484  __mspabi_srli_11              
-0000c488  __mspabi_srli_10              
-0000c48c  __mspabi_srli_9               
-0000c490  __mspabi_srli_8               
-0000c494  __mspabi_srli_7               
-0000c498  __mspabi_srli_6               
-0000c49c  __mspabi_srli_5               
-0000c4a0  __mspabi_srli_4               
-0000c4a4  __mspabi_srli_3               
-0000c4a8  __mspabi_srli_2               
-0000c4ac  __mspabi_srli_1               
-0000c4b2  __TI_auto_init_nobinit_nopinit
-0000c532  MMA8451DataRate               
-0000c56e  TimerConfiguration            
-0000c5aa  i2c_read                      
-0000c5e6  MMA8451Init                   
-0000c61a  MMA8451Reset                  
-0000c646  __mspabi_slli                 
-0000c652  __mspabi_slli_15              
-0000c654  __mspabi_slli_14              
-0000c656  __mspabi_slli_13              
-0000c658  __mspabi_slli_12              
-0000c65a  __mspabi_slli_11              
-0000c65c  __mspabi_slli_10              
-0000c65e  __mspabi_slli_9               
-0000c660  __mspabi_slli_8               
-0000c662  __mspabi_slli_7               
-0000c664  __mspabi_slli_6               
-0000c666  __mspabi_slli_5               
-0000c668  __mspabi_slli_4               
-0000c66a  __mspabi_slli_3               
-0000c66c  __mspabi_slli_2               
-0000c66e  __mspabi_slli_1               
-0000c672  clearLCD                      
-0000c69c  paso                          
-0000c6c6  i2c_write                     
-0000c6ec  ADCluxLevel                   
-0000c710  MMA8451_2g                    
-0000c734  writeToLCD                    
-0000c776  MMA8451Active                 
-0000c794  MMA8451StandBy                
-0000c7b2  initADClux                    
-0000c7d0  rx_interrupt                  
-0000c7ee  _c_int00_noargs               
-0000c80a  setAddr                       
-0000c824  __TI_zero_init_nomemset       
-0000c838  MMA8451OrientDetect           
-0000c84a  RTI_T0_TACCR0                 
-0000c85c  __TI_decompress_none          
-0000c86e  memcpy                        
-0000c880  normalizar                    
-0000c892  __mspabi_func_epilog_7        
-0000c894  __mspabi_func_epilog_6        
-0000c896  __mspabi_func_epilog_5        
-0000c898  __mspabi_func_epilog_4        
-0000c89a  __mspabi_func_epilog_3        
-0000c89c  __mspabi_func_epilog_2        
-0000c89e  __mspabi_func_epilog_1        
-0000c8a2  MMA8451GetYAxis               
-0000c8b0  MMA8451GetZAxis               
-0000c8be  cola                          
-0000c8cc  MMA8451GetXAxis               
-0000c8d8  __TI_ISR_TRAP                 
-0000c8e0  ADC10_ISR                     
-0000c8e6  MMA8451SetDeviceAddr          
-0000c8ec  C$$EXIT                       
-0000c8ec  abort                         
-0000c8f2  i2c_busy                      
-0000c8f8  _system_pre_init              
-0000c8fc  _system_post_cinit            
-0000c91c  __TI_Handler_Table_Base       
-0000c922  __TI_Handler_Table_Limit      
-0000c926  __TI_CINIT_Base               
-0000c92e  __TI_CINIT_Limit              
+0000c3c6  init_i2c                      
+0000c416  MMA8451InterruptConfiguration 
+0000c464  __mspabi_srli                 
+0000c472  __mspabi_srli_15              
+0000c476  __mspabi_srli_14              
+0000c47a  __mspabi_srli_13              
+0000c47e  __mspabi_srli_12              
+0000c482  __mspabi_srli_11              
+0000c486  __mspabi_srli_10              
+0000c48a  __mspabi_srli_9               
+0000c48e  __mspabi_srli_8               
+0000c492  __mspabi_srli_7               
+0000c496  __mspabi_srli_6               
+0000c49a  __mspabi_srli_5               
+0000c49e  __mspabi_srli_4               
+0000c4a2  __mspabi_srli_3               
+0000c4a6  __mspabi_srli_2               
+0000c4aa  __mspabi_srli_1               
+0000c4b0  __TI_auto_init_nobinit_nopinit
+0000c530  MMA8451DataRate               
+0000c56c  TimerConfiguration            
+0000c5a8  i2c_read                      
+0000c5e4  MMA8451Init                   
+0000c618  MMA8451Reset                  
+0000c644  __mspabi_slli                 
+0000c650  __mspabi_slli_15              
+0000c652  __mspabi_slli_14              
+0000c654  __mspabi_slli_13              
+0000c656  __mspabi_slli_12              
+0000c658  __mspabi_slli_11              
+0000c65a  __mspabi_slli_10              
+0000c65c  __mspabi_slli_9               
+0000c65e  __mspabi_slli_8               
+0000c660  __mspabi_slli_7               
+0000c662  __mspabi_slli_6               
+0000c664  __mspabi_slli_5               
+0000c666  __mspabi_slli_4               
+0000c668  __mspabi_slli_3               
+0000c66a  __mspabi_slli_2               
+0000c66c  __mspabi_slli_1               
+0000c670  clearLCD                      
+0000c69a  paso                          
+0000c6c4  i2c_write                     
+0000c6ea  MMA8451_2g                    
+0000c70e  writeToLCD                    
+0000c730  ADC10_ISR                     
+0000c770  MMA8451Active                 
+0000c78e  MMA8451StandBy                
+0000c7ac  rx_interrupt                  
+0000c7ca  _c_int00_noargs               
+0000c7e6  setAddr                       
+0000c800  initADClux                    
+0000c818  __TI_zero_init_nomemset       
+0000c82c  MMA8451OrientDetect           
+0000c83e  __TI_decompress_none          
+0000c850  memcpy                        
+0000c862  normalizar                    
+0000c874  __mspabi_func_epilog_7        
+0000c876  __mspabi_func_epilog_6        
+0000c878  __mspabi_func_epilog_5        
+0000c87a  __mspabi_func_epilog_4        
+0000c87c  __mspabi_func_epilog_3        
+0000c87e  __mspabi_func_epilog_2        
+0000c880  __mspabi_func_epilog_1        
+0000c884  MMA8451GetYAxis               
+0000c892  MMA8451GetZAxis               
+0000c8a0  cola                          
+0000c8ae  MMA8451GetXAxis               
+0000c8ba  RTI_T0_TACCR0                 
+0000c8c6  __TI_ISR_TRAP                 
+0000c8ce  MMA8451SetDeviceAddr          
+0000c8d4  C$$EXIT                       
+0000c8d4  abort                         
+0000c8da  i2c_busy                      
+0000c8e0  _system_pre_init              
+0000c8e4  _system_post_cinit            
+0000c904  __TI_Handler_Table_Base       
+0000c90a  __TI_Handler_Table_Limit      
+0000c90e  __TI_CINIT_Base               
+0000c916  __TI_CINIT_Limit              
 0000ffe0  __TI_int00                    
 0000ffe4  __TI_int02                    
 0000ffe6  __TI_int03                    
@@ -666,4 +663,4 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start          
 ffffffff  __c_args__                    
 
-[209 symbols]
+[208 symbols]
